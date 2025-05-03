@@ -1,0 +1,67 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches:
+      - develop
+      - testing
+      - main
+      - 'dgutierrez/*'
+      - 'jmayorga/*'
+      - 'croldan/*'
+  pull_request:
+    branches:
+      - develop
+      - testing
+      - main
+
+jobs:
+  # Job para construir y testear el código
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Clonar el repositorio
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      # Paso 2: Configurar Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      # Paso 3: Instalar dependencias
+      - name: Install dependencies
+        run: npm install
+
+      # Paso 4: Ejecutar pruebas
+      - name: Run tests
+        run: npm test
+
+  # Job para desplegar la aplicación a producción (solo en `main`)
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_test
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      # Paso 1: Clonar el repositorio
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      # Paso 2: Configurar Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      # Paso 3: Instalar dependencias
+      - name: Install dependencies
+        run: npm install
+
+      # Paso 4: Desplegar a producción (puedes añadir aquí tu script de despliegue)
+      - name: Deploy to Production
+        run: |
+          # Aquí puedes agregar el script de despliegue a tu servidor o a la nube
+          echo "Desplegando a producción..."

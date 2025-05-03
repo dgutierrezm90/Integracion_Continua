@@ -66,3 +66,37 @@ npm install
 ```
 node server.js
 ```
+# 🧠 Git Workflow del Proyecto
+
+## Ramas principales
+- `main`: rama de producción. Solo recibe cambios desde `testing` mediante Pull Request.
+- `testing`: rama de integración. Aquí se integran las funcionalidades y se hacen pruebas.
+- `develop`: rama de desarrollo. Aquí se integran las funcionalidades en desarrollo.
+
+## Ramas por desarrollador
+Cada desarrollador crea ramas así:
+- `dgutierrez/feature-login`
+- `jmayorga/bugfix-header`
+- `croldan/refactor-form`
+
+## Flujo de trabajo
+1. Crear una rama desde `develop` para cada funcionalidad o bugfix.
+2. Hacer `push` a la rama creada.
+3. Crear un Pull Request desde la rama creada hacia `testing`.
+4. Revisar el Pull Request y hacer merge a `testing`.
+5. Probar la funcionalidad en `testing`.
+6. Si todo está bien, crear un Pull Request desde `testing` hacia `main`.
+7. Revisar el Pull Request y hacer merge a `main`.
+8. Desplegar la aplicación desde `main`.
+9. Si hay errores, crear un nuevo Pull Request desde `develop` hacia `testing` para corregir el error.
+10. Repetir el proceso hasta que todo esté en producción.
+
+## Revisión de código
+- Cada Pull Request debe ser revisado por al menos un compañero.
+- Se deben dejar comentarios y sugerencias en el Pull Request.
+- Se deben resolver todos los comentarios antes de hacer merge.
+
+
+## Reglas
+- ❌ No se hace `push` directo a `main`
+- ✅ Toda integración pasa por Pull Requests y revisiones
