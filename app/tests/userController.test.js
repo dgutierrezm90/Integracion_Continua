@@ -1,25 +1,43 @@
-const request = require('supertest');
-const app = require('../../server'); // Asegúrate de que la ruta al server es correcta
+const User = require('../models/User');
 
-describe('User Controller', () => {
-  it('GET /api/users debe devolver 200', async () => {
-    const res = await request(app).get('/api/users'); // Asegúrate de que esta ruta existe
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true); // Suponiendo que devuelve una lista
+describe('User Model Test Suite', () => {
+  it('debería crear un usuario correctamente', async () => {
+    const user = new User({ name: 'David', email: 'david@example.com' });
+    const savedUser = await user.save();
+
+    expect(savedUser._id).toBeDefined();
+    expect(savedUser.name).toBe('David');
+    expect(savedUser.email).toBe('david@example.com');
   });
 
-  it('POST /api/users debe crear un usuario', async () => {
-    const newUser = { name: 'David', email: 'david@example.com' };
-    const res = await request(app).post('/api/users').send(newUser);
-    expect(res.statusCode).toBe(201);
-    expect(res.body).toHaveProperty('_id');
-    expect(res.body.name).toBe('David');
-    expect(res.body.email).toBe('david@example.com');
+  it('debería fallar al guardar sin campo requerido (email)', async () => {
+    const user = new User({ name: 'David' });
+
+    let err;
+    try {
+      await user.save();
+    } catch (error) {
+      err = error;
+    }
+
+    expect(err).toBeDefined();
+    expect(err.errors.email).toBeDefined();
   });
-});
 
-const mongoose = require('mongoose');
+  it('debería fallar si el email no es único', async () => {
+    const user1 = new User({ name: 'User1', email: 'same@example.com' });
+    const user2 = new User({ name: 'User2', email: 'same@example.com' });
 
-afterAll(async () => {
-  await mongoose.connection.close();
+    await user1.save();
+
+    let err;
+    try {
+      await user2.save();
+    } catch (error) {
+      err = error;
+    }
+
+    expect(err).toBeDefined();
+    expect(err.code).toBe(11000); // Código de error por índice único duplicado
+  });
 });
