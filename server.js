@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+
 const app = express();
 
 var corsOptions = {
@@ -36,6 +37,11 @@ db.mongoose
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
+
+// Importa las rutas de usuarios
+const userRoutes = require("./app/routes/userRoutes"); 
+// Usa las rutas para el API de usuarios
+app.use("/api", userRoutes);
 
 require("./app/routes/turorial.routes")(app);
 
