@@ -100,3 +100,5 @@ Cada desarrollador crea ramas así:
 ## Reglas
 - ❌ No se hace `push` directo a `main`
 - ✅ Toda integración pasa por Pull Requests y revisiones
+
+## prueba para envio de testing a main
