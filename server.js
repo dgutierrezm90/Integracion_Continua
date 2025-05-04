@@ -1,5 +1,7 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const cors = require("cors");
+
 
 const app = express();
 
@@ -9,11 +11,14 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use(bodyParser.json());
+
 // parse requests of content-type - application/json
 app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+
 
 const db = require("./app/models");
 db.mongoose
@@ -34,10 +39,19 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
+// Importa las rutas de usuarios
+const userRoutes = require("./app/routes/userRoutes"); 
+// Usa las rutas para el API de usuarios
+app.use("/api", userRoutes);
+
 require("./app/routes/turorial.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
+  });
+}
+
+module.exports = app; 
