@@ -66,6 +66,9 @@ npm install
 ```
 node server.js
 ```
+
+# agregando cambios comentario realizado por Jeisson Mayorga para intento 1
+
 # 🧠 Git Workflow del Proyecto
 
 ## Ramas principales
@@ -96,9 +99,10 @@ Cada desarrollador crea ramas así:
 - Se deben dejar comentarios y sugerencias en el Pull Request.
 - Se deben resolver todos los comentarios antes de hacer merge.
 
-
 ## Reglas
 - ❌ No se hace `push` directo a `main`
 - ✅ Toda integración pasa por Pull Requests y revisiones
 
+
 ## prueba para envio de testing a main
+
