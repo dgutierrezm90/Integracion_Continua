@@ -41,8 +41,11 @@ app.get("/", (req, res) => {
 
 // Importa las rutas de usuarios
 const userRoutes = require("./app/routes/userRoutes"); 
+const imcRoutes = require('./app/routes/imcRoutes');
 // Usa las rutas para el API de usuarios
 app.use("/api", userRoutes);
+app.use('/api', imcRoutes);
+app.use('/api/imc', imcRoutes);
 
 require("./app/routes/turorial.routes")(app);
 
